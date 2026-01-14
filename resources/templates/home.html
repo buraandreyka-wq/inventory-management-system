@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('Главная')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: navbar}"></div>
+<div th:replace="~{fragments/layout :: alerts}"></div>
+
+<main class="container py-4">
+    <div class="p-4 bg-light border rounded">
+        <div class="mb-3">
+            <div class="text-muted">Business Resource Management</div>
+            <h1 class="h4 brm-page-title">Главная</h1>
+        </div>
+        <p class="mb-2">Добро пожаловать в систему управления складскими запасами.</p>
+
+        <div class="mb-3" sec:authorize="isAnonymous()">
+            <a class="btn btn-primary me-2" th:href="@{/login}">Вход</a>
+            <a class="btn btn-outline-primary" th:href="@{/register}">Регистрация</a>
+        </div>
+
+        <div class="list-group">
+            <a class="list-group-item list-group-item-action" th:href="@{/products}" sec:authorize="hasAnyRole('EMPLOYEE','MANAGER','ADMIN')">Товары</a>
+            <a class="list-group-item list-group-item-action" th:href="@{/categories}" sec:authorize="hasAnyRole('MANAGER','ADMIN')">Категории</a>
+            <a class="list-group-item list-group-item-action" th:href="@{/warehouses}" sec:authorize="hasAnyRole('MANAGER','ADMIN')">Склады</a>
+            <a class="list-group-item list-group-item-action" th:href="@{/suppliers}" sec:authorize="hasAnyRole('MANAGER','ADMIN')">Поставщики</a>
+
+            <!-- Manager/Admin -->
+            <a class="list-group-item list-group-item-action" th:href="@{/supplies}" sec:authorize="hasAnyRole('MANAGER','ADMIN')">Поставки</a>
+            <a class="list-group-item list-group-item-action" th:href="@{/reports/movements}" sec:authorize="hasAnyRole('MANAGER','ADMIN')">Движения</a>
+
+            <!-- Employee/Manager/Admin -->
+            <a class="list-group-item list-group-item-action" th:href="@{/orders}" sec:authorize="hasAnyRole('EMPLOYEE','MANAGER','ADMIN')">Заказы</a>
+            <a class="list-group-item list-group-item-action" th:href="@{/stock}" sec:authorize="hasAnyRole('EMPLOYEE','MANAGER','ADMIN')">Остатки</a>
+
+            <!-- Manager/Admin -->
+            <a class="list-group-item list-group-item-action" th:href="@{/stock/adjust}" sec:authorize="hasAnyRole('MANAGER','ADMIN')">Корректировка остатков</a>
+
+            <!-- Admin only -->
+            <a class="list-group-item list-group-item-action" th:href="@{/admin/ai}" sec:authorize="hasRole('ADMIN')">ИИ‑прогноз</a>
+            <a class="list-group-item list-group-item-action" th:href="@{/admin/users}" sec:authorize="hasRole('ADMIN')">Пользователи</a>
+        </div>
+
+        <div class="mt-3 text-muted">
+            Роли: Employee — просмотр товаров/создание заказов; Manager — управление товарами и поставками; Admin — всё + пользователи.
+        </div>
+    </div>
+</main>
+
+<div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

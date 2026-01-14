@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Регистрация')}"></head>
+<body class="brm-auth">
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-7 col-lg-5">
+            <div class="card brm-auth-card">
+                <div class="card-body p-4 p-md-5">
+                    <div class="text-center mb-4">
+                        <div class="brm-app-name h3 mb-1">Business Resource Management</div>
+                        <div class="text-muted">Регистрация</div>
+                    </div>
+
+                    <div th:if="${error}" class="alert alert-danger" th:text="${error}">Ошибка</div>
+
+                    <form method="post" th:action="@{/register}" th:object="${form}">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+                        <div class="mb-3">
+                            <label class="form-label">Логин</label>
+                            <input class="form-control" type="text" th:field="*{username}" maxlength="50" required autofocus>
+                            <div class="text-danger small" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Пароль</label>
+                            <input class="form-control" type="password" th:field="*{password}" required>
+                            <div class="text-danger small" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Повтор пароля</label>
+                            <input class="form-control" type="password" th:field="*{passwordConfirm}" required>
+                            <div class="text-danger small" th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}"></div>
+                        </div>
+
+                        <button class="btn btn-primary w-100" type="submit">Зарегистрироваться</button>
+                    </form>
+
+                    <hr class="my-4"/>
+                    <div class="d-flex justify-content-between">
+                        <a th:href="@{/login}">Вход</a>
+                        <a th:href="@{/dashboard}">На главную</a>
+                    </div>
+
+                    <div class="mt-3">
+                        <small class="text-muted">Все новые пользователи регистрируются с ролью <strong>employee</strong>.</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

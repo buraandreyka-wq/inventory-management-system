@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Новая поставка')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: navbar}"></div>
+<div th:replace="~{fragments/layout :: alerts}"></div>
+
+<main class="container py-4" style="max-width: 980px">
+    <h1 class="h4 mb-3">Новая поставка (приход товара)</h1>
+
+    <div class="card">
+        <div class="card-body">
+            <form th:action="@{/supplies}" th:object="${req}" method="post">
+        <div class="row">
+            <div class="col-md-4">
+                <label class="form-label">Склад</label>
+                <select class="form-select" th:field="*{warehouseId}">
+                    <option value="">-- выберите --</option>
+                    <option th:each="w : ${warehouses}" th:value="${w.id}" th:text="${w.name}"></option>
+                </select>
+                <div class="text-danger" th:if="${#fields.hasErrors('warehouseId')}" th:errors="*{warehouseId}"></div>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Поставщик</label>
+                <select class="form-select" th:field="*{supplierId}">
+                    <option value="">-- выберите --</option>
+                    <option th:each="s : ${suppliers}" th:value="${s.id}" th:text="${s.name}"></option>
+                </select>
+                <div class="text-danger" th:if="${#fields.hasErrors('supplierId')}" th:errors="*{supplierId}"></div>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Номер (опционально)</label>
+                <input class="form-control" th:field="*{referenceNumber}"/>
+            </div>
+        </div>
+
+        <hr class="my-4"/>
+
+        <h5>Позиции</h5>
+        <p class="text-muted">Добавьте (SKU и количество) обязательно.</p>
+
+        <div class="row" th:each="it, idx : *{items}">
+            <div class="col-md-6">
+                <label class="form-label">SKU</label>
+                <input class="form-control" th:field="*{items[__${idx.index}__].sku}" placeholder="например EL-0001"/>
+                <div class="text-danger" th:if="${#fields.hasErrors('items[' + idx.index + '].sku')}" th:errors="*{items[__${idx.index}__].sku}"></div>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Количество</label>
+                <input type="number" class="form-control" th:field="*{items[__${idx.index}__].quantity}" min="1"/>
+                <div class="text-danger" th:if="${#fields.hasErrors('items[' + idx.index + '].quantity')}" th:errors="*{items[__${idx.index}__].quantity}"></div>
+            </div>
+        </div>
+
+                <div class="mt-4 d-flex gap-2">
+                    <button class="btn btn-primary" type="submit">Принять поставку</button>
+                    <a class="btn btn-outline-secondary" th:href="@{/supplies}">Отмена</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+
+<div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

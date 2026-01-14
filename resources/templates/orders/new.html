@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Новый заказ')}"></head>
+<body>
+<div th:replace="fragments/layout :: navbar"></div>
+<div th:replace="fragments/layout :: alerts"></div>
+
+<div class="container mt-4">
+    <h2>Создать заказ (списание со склада)</h2>
+
+    <form th:action="@{/orders}" th:object="${req}" method="post" class="mt-3">
+        <div class="row">
+            <div class="col-md-6">
+                <label class="form-label">Склад</label>
+                <select class="form-select" th:field="*{warehouseId}">
+                    <option value="" disabled selected>Выберите склад</option>
+                    <option th:each="w : ${warehouses}" th:value="${w.id}" th:text="${w.name}"></option>
+                </select>
+                <div class="text-danger" th:if="${#fields.hasErrors('warehouseId')}" th:errors="*{warehouseId}"></div>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Клиент</label>
+                <input class="form-control" th:field="*{customerName}" placeholder="(необязательно)"/>
+            </div>
+        </div>
+
+        <hr class="my-4"/>
+
+        <h5>Позиции</h5>
+        <p class="text-muted">Введите SKU товаров и количество.</p>
+
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th style="width: 40%">SKU</th>
+                <th style="width: 20%">Количество</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="it, iStat : *{items}">
+                <td>
+                    <input class="form-control" th:field="*{items[__${iStat.index}__].sku}" placeholder="SKU"/>
+                    <div class="text-danger" th:if="${#fields.hasErrors('items[' + iStat.index + '].sku')}"
+                         th:errors="*{items[__${iStat.index}__].sku}"></div>
+                </td>
+                <td>
+                    <input type="number" class="form-control" th:field="*{items[__${iStat.index}__].quantity}" min="1"/>
+                    <div class="text-danger" th:if="${#fields.hasErrors('items[' + iStat.index + '].quantity')}"
+                         th:errors="*{items[__${iStat.index}__].quantity}"></div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="d-flex gap-2">
+            <button class="btn btn-primary" type="submit">Создать</button>
+            <a class="btn btn-outline-secondary" th:href="@{/orders}">Отмена</a>
+        </div>
+
+        <div class="alert alert-warning mt-3">
+            Важно: если на складе недостаточно остатков, заказ не создастся.
+        </div>
+    </form>
+</div>
+
+<div th:replace="fragments/layout :: scripts"></div>
+</body>
+</html>

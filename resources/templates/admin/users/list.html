@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('Пользователи')}"></head>
+<body>
+<div th:replace="fragments/layout :: navbar"></div>
+<div th:replace="fragments/layout :: alerts"></div>
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <h2>Пользователи</h2>
+        <a class="btn btn-primary" th:href="@{/admin/users/new}">Создать пользователя</a>
+    </div>
+
+    <table class="table table-striped mt-3">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Roles</th>
+            <th>Enabled</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="u : ${users}">
+            <td th:text="${u.id}"></td>
+            <td th:text="${u.username}"></td>
+            <td>
+                <span th:each="r,iter : ${u.roles}">
+                    <span class="badge bg-secondary" th:text="${r.name}"></span>
+                </span>
+            </td>
+            <td>
+                <span th:if="${u.enabled}" class="badge bg-success">YES</span>
+                <span th:if="${!u.enabled}" class="badge bg-danger">NO</span>
+            </td>
+            <td class="text-end">
+                <!-- Не даём админу менять/выключать/удалять самого себя -->
+                <th:block th:if="${u.username != #authentication.name}">
+                    <a class="btn btn-sm btn-outline-secondary" th:href="@{/admin/users/{id}/edit(id=${u.id})}">Edit</a>
+                    <form th:action="@{/admin/users/{id}/toggle(id=${u.id})}" method="post" style="display:inline-block;">
+                        <button type="submit" class="btn btn-sm btn-outline-warning" th:text="${u.enabled} ? 'Disable' : 'Enable'"></button>
+                    </form>
+                    <form th:action="@{/admin/users/{id}/delete(id=${u.id})}" method="post" style="display:inline-block;"
+                          onsubmit="return confirm('Удалить пользователя?')">
+                        <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                    </form>
+                </th:block>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div th:replace="fragments/layout :: scripts"></div>
+</body>
+</html>

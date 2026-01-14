@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Заказы')}"></head>
+<body>
+<div th:replace="fragments/layout :: navbar"></div>
+<div th:replace="fragments/layout :: alerts"></div>
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <h2>Заказы</h2>
+        <a class="btn btn-primary" th:href="@{/orders/new}">Создать заказ</a>
+    </div>
+
+    <table class="table table-striped mt-3">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Тип</th>
+            <th>Статус</th>
+            <th>Склад</th>
+            <th>Клиент</th>
+            <th>Создан</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="o : ${orders}">
+            <td th:text="${o.id}"></td>
+            <td th:text="${o.orderType}"></td>
+            <td th:text="${o.status}"></td>
+            <td th:text="${o.warehouse.name}"></td>
+            <td th:text="${o.customerName}"></td>
+            <td th:text="${#temporals.format(o.createdAt, 'dd.MM.yyyy HH:mm')}"></td>
+            <td>
+                <a class="btn btn-sm btn-outline-secondary" th:href="@{/orders/{id}(id=${o.id})}">Открыть</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div th:replace="fragments/layout :: scripts"></div>
+</body>
+</html>

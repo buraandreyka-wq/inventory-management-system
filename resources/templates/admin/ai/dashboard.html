@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(${title})}"></head>
+<body>
+<div th:replace="~{fragments/layout :: navbar}"></div>
+<div th:replace="~{fragments/layout :: alerts}"></div>
+
+<main class="container py-4">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <h1 class="h4 mb-0">ИИ-прогноз спроса и рекомендация закупки</h1>
+    </div>
+
+    <form class="row g-2 mb-3" method="get" th:action="@{/admin/ai}">
+        <div class="col-auto">
+            <label class="form-label">История (дней)</label>
+            <input class="form-control" type="number" min="7" max="365" name="historyDays" th:value="${historyDays}"/>
+        </div>
+        <div class="col-auto">
+            <label class="form-label">Прогноз (дней)</label>
+            <input class="form-control" type="number" min="1" max="120" name="forecastDays" th:value="${forecastDays}"/>
+        </div>
+        <div class="col-auto">
+            <label class="form-label">Срок поставки (дней)</label>
+            <input class="form-control" type="number" min="0" max="60" name="leadTimeDays" th:value="${leadTimeDays}"/>
+        </div>
+        <div class="col-auto">
+            <label class="form-label">Страховой запас (дней)</label>
+            <input class="form-control" type="number" min="0" max="60" name="safetyDays" th:value="${safetyDays}"/>
+        </div>
+        <div class="col-auto">
+            <label class="form-label">Склад (ID,)</label>
+            <input class="form-control" type="number" name="warehouseId" th:value="${warehouseId}" placeholder="например 1"/>
+        </div>
+        <div class="col-auto d-flex align-items-end">
+            <button class="btn btn-primary" type="submit">ИИ-прогноз</button>
+        </div>
+    </form>
+
+    <div class="alert alert-info">
+        Данные: продажи/списания = все движения склада <b>OUT</b>.
+    </div>
+
+    <div class="alert alert-warning" th:if="${aiError}">
+        <b>AI сервис недоступен:</b> <span th:text="${aiError}">error</span><br/>
+        Используется пустая выборка (проверьте настройки <code>ai.forecast.*</code> или отключите внешний AI).
+    </div>
+
+    <div class="alert alert-secondary" th:if="${#lists.isEmpty(rows)}">
+        Нет данных для отображения.
+        <span th:if="${aiError}">AI сервис недоступен или вернул ошибку.</span>
+        <span th:unless="${aiError}">Проверьте, что в системе есть активные товары и движения склада (OUT) за выбранный период.</span>
+    </div>
+
+    <div class="card" th:if="${!#lists.isEmpty(rows)}">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle mb-0">
+                <thead>
+                <tr>
+                    <th>SKU</th>
+                    <th>Товар</th>
+                    <th class="text-end">Остаток</th>
+                    <th class="text-end">Мин. запас</th>
+                    <th class="text-end">Прогноз, всего</th>
+                    <th class="text-end">Средн/день</th>
+                    <th class="text-end">Покрытие, дней</th>
+                    <th>Дефицит</th>
+                    <th class="text-end">Целевой запас</th>
+                    <th class="text-end">К закупке</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="r : ${rows}">
+                    <td th:text="${r.sku}">SKU</td>
+                    <td>
+                        <div class="fw-semibold" th:text="${r.name}">Name</div>
+                        <div class="text-muted small" th:text="${r.unit}">pcs</div>
+                    </td>
+                    <td class="text-end" th:text="${r.currentStock}">0</td>
+                    <td class="text-end" th:text="${r.minStock}">0</td>
+                    <td class="text-end" th:text="${r.forecastTotalDemand}">0</td>
+                    <td class="text-end" th:text="${#numbers.formatDecimal(r.forecastAvgDaily, 1, 2)}">0</td>
+                    <td class="text-end" th:text="${r.daysOfCover != null ? #numbers.formatDecimal(r.daysOfCover, 1, 1) : '—'}">—</td>
+                    <td>
+                        <span class="badge text-bg-warning" th:if="${r.outOfStockRisk}" th:text="${r.stockoutDay != null ? 'риск до ' + r.stockoutDay : 'риск'}">риск</span>
+                        <span class="badge text-bg-success" th:unless="${r.outOfStockRisk}">ок</span>
+                    </td>
+                    <td class="text-end" th:text="${r.recommendedTargetStock}">0</td>
+                    <td class="text-end">
+                        <span class="badge" th:classappend="${r.recommendedPurchaseQty > 0} ? ' text-bg-danger' : ' text-bg-success'"
+                              th:text="${r.recommendedPurchaseQty}">0</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+<div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

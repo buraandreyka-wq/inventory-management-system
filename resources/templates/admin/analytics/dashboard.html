@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout(~{::body/*})}">
+<body>
+<div class="container">
+    <h2>Аналитика</h2>
+
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="text-muted">Оборот (выручка)</div>
+                    <div class="fs-3" th:text="${totalRevenue}">0</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h4 th:text="'Топ товаров (лимит ' + ${topLimit} + ')'">Топ товаров</h4>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>SKU</th>
+            <th>Название</th>
+            <th>Кол-во</th>
+            <th>Выручка</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="r,iter : ${topProducts}">
+            <td th:text="${iter.index + 1}"></td>
+            <td th:text="${r.sku}"></td>
+            <td th:text="${r.name}"></td>
+            <td th:text="${r.qty}"></td>
+            <td th:text="${r.revenue}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <p class="text-muted">Источник данных: подтверждённые продажи.</p>
+</div>
+</body>
+</html>

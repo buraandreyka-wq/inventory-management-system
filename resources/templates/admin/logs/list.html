@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout(~{::body/*})}">
+<body>
+<div class="container">
+    <h2>Системные логи</h2>
+
+    <form class="row g-2 mb-3" method="get" th:action="@{/admin/logs}">
+        <div class="col-auto">
+            <input class="form-control" type="number" min="10" max="500" name="limit" th:value="${limit}">
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-outline-primary" type="submit">Показать</button>
+        </div>
+    </form>
+
+    <table class="table table-sm table-striped">
+        <thead>
+        <tr>
+            <th>At</th>
+            <th>Level</th>
+            <th>Code</th>
+            <th>Message</th>
+            <th>Actor</th>
+            <th>Entity</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="l : ${logs}">
+            <td th:text="${l.createdAt}"></td>
+            <td><span class="badge bg-secondary" th:text="${l.level}"></span></td>
+            <td th:text="${l.code}"></td>
+            <td th:text="${l.message}"></td>
+            <td th:text="${l.actor}"></td>
+            <td>
+                <span th:text="${l.entityType}"></span>
+                <span th:if="${l.entityId != null}" th:text="' #' + ${l.entityId}"></span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

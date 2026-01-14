@@ -1,0 +1,802 @@
+:root {
+    --brm-bg: #f6f8fb;
+    --brm-surface: #ffffff;
+    --brm-text: #0f172a;
+    --brm-muted: #64748b;
+
+    --brm-primary: #2563eb;
+    --brm-primary-700: #1d4ed8;
+    --brm-primary-50: #eff6ff;
+
+    --brm-success: #16a34a;
+    --brm-success-700: #15803d;
+    --brm-success-50: #f0fdf4;
+
+    --brm-warning: #f59e0b;
+    --brm-warning-700: #b45309;
+    --brm-warning-50: #fffbeb;
+
+    --brm-danger: #dc2626;
+    --brm-danger-700: #b91c1c;
+    --brm-danger-50: #fef2f2;
+
+    --brm-info: #0ea5e9;
+    --brm-info-700: #0369a1;
+    --brm-info-50: #f0f9ff;
+
+    --brm-secondary: #64748b;
+    --brm-secondary-700: #475569;
+    --brm-secondary-50: #f8fafc;
+
+    --brm-border: #e5e7eb;
+
+    --brm-radius: 14px;
+    --brm-radius-sm: 10px;
+
+    --brm-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    --brm-shadow-sm: 0 6px 16px rgba(15, 23, 42, 0.08);
+}
+
+html, body {
+    height: 100%;
+    max-width: 100%;
+    overflow-x: hidden; /* safety net against accidental horizontal overflow */
+}
+
+img, svg, video, canvas {
+    max-width: 100%;
+    height: auto;
+}
+
+body {
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+    color: var(--brm-text);
+
+    /* Яркие градиенты с большей непрозрачностью */
+    background:
+        radial-gradient(1500px 600px at 5% 0%, rgba(37, 99, 235, 0.25), transparent 70%),
+        radial-gradient(1400px 550px at 50% -10%, rgba(147, 51, 234, 0.20), transparent 65%),
+        radial-gradient(1300px 500px at 95% 0%, rgba(22, 163, 74, 0.22), transparent 60%),
+        linear-gradient(180deg, rgba(246, 248, 251, 0.95) 0%, #f6f8fb 100%);
+
+    /* Добавляем едва заметную текстуру для глубины */
+    background-blend-mode: overlay, overlay, overlay, normal;
+    position: relative;
+    min-height: 100vh;
+}
+
+/* псевдоэлемент для дополнительного эффекта */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 20% 80%, rgba(56, 189, 248, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.08) 0%, transparent 50%);
+    z-index: -1;
+}
+
+
+@media (min-width: 768px) {
+    .container {
+        max-width: 1500px;
+    }
+}
+
+main {
+    min-height: calc(100vh - 56px); /* navbar height */
+}
+
+/* Navbar */
+.navbar {
+    background: linear-gradient(90deg, #0b1220, #111827);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+}
+
+.navbar .navbar-brand {
+    font-weight: 800;
+    letter-spacing: 0.2px;
+}
+
+.navbar .nav-link {
+    opacity: 0.92;
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-link:focus {
+    opacity: 1;
+}
+
+/* Cards */
+.card {
+    border-radius: var(--brm-radius);
+    border: 1px solid var(--brm-border);
+    box-shadow: var(--brm-shadow-sm);
+}
+
+.card .card-header {
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.03), rgba(15, 23, 42, 0.00));
+    border-bottom: 1px solid var(--brm-border);
+}
+
+/* Page titles */
+.brm-page-title {
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+/* ==================== */
+/* TABLE STYLES - UNIFIED GRAY-WHITE DESIGN */
+/* ==================== */
+
+.table {
+    --bs-table-bg: transparent;
+    --bs-table-striped-bg: rgba(248, 250, 252, 0.7);
+    --bs-table-hover-bg: rgba(241, 245, 249, 0.8);
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-bottom: 0;
+    width: 100%;
+}
+
+.table thead {
+    position: relative;
+}
+
+.table thead::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: linear-gradient(90deg,
+        rgba(248, 250, 252, 0.95) 0%,
+        rgba(241, 245, 249, 0.98) 50%,
+        rgba(248, 250, 252, 0.95) 100%);
+    border-radius: var(--brm-radius-sm) var(--brm-radius-sm) 0 0;
+    z-index: 0;
+}
+
+.table thead tr {
+    position: relative;
+    z-index: 1;
+}
+
+.table thead th {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #475569;
+    border-bottom: 2px solid #e2e8f0;
+    background: transparent !important;
+    padding: 1rem 1.25rem;
+    font-weight: 600;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+.table tbody tr {
+    background-color: white;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: var(--bs-table-striped-bg);
+}
+
+.table tbody tr:hover {
+    background-color: var(--bs-table-hover-bg);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+    z-index: 1;
+}
+
+.table tbody td {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid #f1f5f9;
+    color: #334155;
+    vertical-align: middle;
+    font-size: 0.95rem;
+    position: relative;
+}
+
+.table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Контейнер для таблиц с закругленными углами */
+.table-responsive {
+    border-radius: var(--brm-radius);
+    border: 1px solid var(--brm-border);
+    background: white;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+    overflow: hidden;
+}
+
+/* Специфичные стили для разных типов таблиц */
+.table-sm thead th,
+.table-sm tbody td {
+    padding: 0.75rem 1rem;
+}
+
+.table-bordered {
+    border: 1px solid var(--brm-border);
+}
+
+.table-bordered thead th,
+.table-bordered tbody td {
+    border: 1px solid #f1f5f9;
+}
+
+.table-borderless tbody tr,
+.table-borderless thead tr {
+    border-bottom: none;
+}
+
+.table-borderless tbody td {
+    border-bottom: none;
+}
+
+/* Кастомные классы для статусов в таблицах */
+.table-status-active,
+.table-status-success {
+    color: var(--brm-success);
+    background-color: var(--brm-success-50);
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: inline-block;
+    min-width: 80px;
+    text-align: center;
+    border: 1px solid rgba(22, 163, 74, 0.2);
+}
+
+.table-status-inactive,
+.table-status-warning {
+    color: var(--brm-warning);
+    background-color: var(--brm-warning-50);
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: inline-block;
+    min-width: 80px;
+    text-align: center;
+    border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.table-status-danger {
+    color: var(--brm-danger);
+    background-color: var(--brm-danger-50);
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: inline-block;
+    min-width: 80px;
+    text-align: center;
+    border: 1px solid rgba(220, 38, 38, 0.2);
+}
+
+.table-status-info {
+    color: var(--brm-info);
+    background-color: var(--brm-info-50);
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: inline-block;
+    min-width: 80px;
+    text-align: center;
+    border: 1px solid rgba(14, 165, 233, 0.2);
+}
+
+/* ==================== */
+/* ACTION BUTTONS - SOLID DESIGN */
+/* ==================== */
+
+/* Общие стили для кнопок действий */
+.btn-action {
+    border-radius: var(--brm-radius-sm);
+    font-weight: 600;
+    transition: all 0.2s ease;
+    border: none;
+    padding: 0.375rem 0.875rem;
+    font-size: 0.875rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.btn-action:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+}
+
+.btn-action:active {
+    transform: translateY(0);
+}
+
+.btn-action-sm {
+    padding: 0.25rem 0.625rem;
+    font-size: 0.8125rem;
+}
+
+.btn-action-lg {
+    padding: 0.5rem 1.125rem;
+    font-size: 0.9375rem;
+}
+
+/* Стили для кнопок в таблицах */
+.table-actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+.table-actions .btn-action {
+    min-width: 70px;
+}
+
+/* Кнопка "Открыть/Просмотреть" */
+.btn-open,
+.btn-view,
+.btn-info {
+    background: linear-gradient(135deg, var(--brm-primary), var(--brm-primary-700));
+    color: white;
+    box-shadow: 0 3px 6px rgba(37, 99, 235, 0.2);
+}
+
+.btn-open:hover,
+.btn-view:hover,
+.btn-info:hover {
+    background: linear-gradient(135deg, var(--brm-primary-700), var(--brm-primary-700));
+    color: white;
+    box-shadow: 0 5px 10px rgba(37, 99, 235, 0.25);
+}
+
+.btn-open:active,
+.btn-view:active,
+.btn-info:active {
+    background: linear-gradient(135deg, var(--brm-primary-700), var(--brm-primary));
+}
+
+/* Кнопка "Удалить" */
+.btn-delete,
+.btn-danger {
+    background: linear-gradient(135deg, var(--brm-danger), var(--brm-danger-700));
+    color: white;
+    box-shadow: 0 3px 6px rgba(220, 38, 38, 0.2);
+}
+
+.btn-delete:hover,
+.btn-danger:hover {
+    background: linear-gradient(135deg, var(--brm-danger-700), var(--brm-danger-700));
+    color: white;
+    box-shadow: 0 5px 10px rgba(220, 38, 38, 0.25);
+}
+
+.btn-delete:active,
+.btn-danger:active {
+    background: linear-gradient(135deg, var(--brm-danger-700), var(--brm-danger));
+}
+
+/* Кнопка "Сбросить/Очистить" */
+.btn-reset,
+.btn-clear,
+.btn-secondary {
+    background: linear-gradient(135deg, var(--brm-secondary), var(--brm-secondary-700));
+    color: white;
+    box-shadow: 0 3px 6px rgba(100, 116, 139, 0.2);
+}
+
+.btn-reset:hover,
+.btn-clear:hover,
+.btn-secondary:hover {
+    background: linear-gradient(135deg, var(--brm-secondary-700), var(--brm-secondary-700));
+    color: white;
+    box-shadow: 0 5px 10px rgba(100, 116, 139, 0.25);
+}
+
+.btn-reset:active,
+.btn-clear:active,
+.btn-secondary:active {
+    background: linear-gradient(135deg, var(--brm-secondary-700), var(--brm-secondary));
+}
+
+/* Кнопка "Редактировать" */
+.btn-edit,
+.btn-warning {
+    background: linear-gradient(135deg, var(--brm-warning), var(--brm-warning-700));
+    color: white;
+    box-shadow: 0 3px 6px rgba(245, 158, 11, 0.2);
+}
+
+.btn-edit:hover,
+.btn-warning:hover {
+    background: linear-gradient(135deg, var(--brm-warning-700), var(--brm-warning-700));
+    color: white;
+    box-shadow: 0 5px 10px rgba(245, 158, 11, 0.25);
+}
+
+.btn-edit:active,
+.btn-warning:active {
+    background: linear-gradient(135deg, var(--brm-warning-700), var(--brm-warning));
+}
+
+/* Кнопка "Сохранить/Добавить" */
+.btn-save,
+.btn-add,
+.btn-success {
+    background: linear-gradient(135deg, var(--brm-success), var(--brm-success-700));
+    color: white;
+    box-shadow: 0 3px 6px rgba(22, 163, 74, 0.2);
+}
+
+.btn-save:hover,
+.btn-add:hover,
+.btn-success:hover {
+    background: linear-gradient(135deg, var(--brm-success-700), var(--brm-success-700));
+    color: white;
+    box-shadow: 0 5px 10px rgba(22, 163, 74, 0.25);
+}
+
+.btn-save:active,
+.btn-add:active,
+.btn-success:active {
+    background: linear-gradient(135deg, var(--brm-success-700), var(--brm-success));
+}
+
+/* Иконки в кнопках */
+.btn-action i,
+.btn-action svg {
+    font-size: 0.875em;
+    width: 1em;
+    height: 1em;
+}
+
+.btn-action-sm i,
+.btn-action-sm svg {
+    font-size: 0.8125em;
+}
+
+.btn-action-lg i,
+.btn-action-lg svg {
+    font-size: 1em;
+}
+
+/* ==================== */
+/* ДОПОЛНИТЕЛЬНЫЕ СТИЛИ ДЛЯ ТАБЛИЦ */
+/* ==================== */
+
+/* Пустая таблица */
+.table-empty-state {
+    text-align: center;
+    padding: 3rem !important;
+    color: #94a3b8;
+}
+
+.table-empty-state td {
+    border: none !important;
+}
+
+.table-empty-state-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+/* Таблицы с сортировкой */
+.table-sortable th.sortable {
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    padding-right: 2rem;
+}
+
+.table-sortable th.sortable:hover {
+    background-color: rgba(241, 245, 249, 0.5);
+}
+
+.table-sortable th.sortable::after {
+    content: '↕';
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.75rem;
+    opacity: 0.5;
+}
+
+.table-sortable th.sortable.asc::after {
+    content: '↑';
+    opacity: 1;
+    color: var(--brm-primary);
+}
+
+.table-sortable th.sortable.desc::after {
+    content: '↓';
+    opacity: 1;
+    color: var(--brm-primary);
+}
+
+/* Фикс для таблиц внутри карточек */
+.card .table-responsive {
+    border: none;
+    border-radius: 0 0 var(--brm-radius) var(--brm-radius);
+    box-shadow: none;
+    margin: -1px;
+}
+
+.card .table {
+    margin-bottom: 0;
+}
+
+.card .card-header + .table-responsive {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+/* Адаптивность таблиц */
+@media (max-width: 768px) {
+    .table thead th,
+    .table tbody td {
+        padding: 0.75rem 1rem;
+    }
+
+    .table-responsive {
+        font-size: 0.9rem;
+        border-radius: var(--brm-radius-sm);
+    }
+
+    .table-actions {
+        gap: 0.25rem;
+    }
+
+    .table-actions .btn-action {
+        padding: 0.2rem 0.5rem;
+        font-size: 0.75rem;
+        min-width: 60px;
+    }
+}
+
+@media (max-width: 576px) {
+    .table-responsive {
+        margin: 0 -1rem;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+    }
+
+    .card .table-responsive {
+        margin: 0 -1rem;
+        width: calc(100% + 2rem);
+    }
+
+    .table-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .table-actions .btn-action {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Forms */
+.form-control,
+.form-select {
+    border-radius: var(--brm-radius-sm);
+    border-color: var(--brm-border);
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: rgba(37, 99, 235, 0.55);
+    box-shadow: 0 0 0 0.25rem rgba(37, 99, 235, 0.15);
+}
+
+/* Bootstrap Buttons - совместимость */
+.btn {
+    border-radius: var(--brm-radius-sm);
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--brm-primary), var(--brm-primary-700));
+    border: none;
+    box-shadow: 0 3px 6px rgba(37, 99, 235, 0.2);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background: linear-gradient(135deg, var(--brm-primary-700), var(--brm-primary-700));
+    box-shadow: 0 5px 10px rgba(37, 99, 235, 0.25);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, var(--brm-success), var(--brm-success-700));
+    border: none;
+    box-shadow: 0 3px 6px rgba(22, 163, 74, 0.2);
+}
+
+.btn-warning {
+    background: linear-gradient(135deg, var(--brm-warning), var(--brm-warning-700));
+    border: none;
+    box-shadow: 0 3px 6px rgba(245, 158, 11, 0.2);
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, var(--brm-danger), var(--brm-danger-700));
+    border: none;
+    box-shadow: 0 3px 6px rgba(220, 38, 38, 0.2);
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, var(--brm-secondary), var(--brm-secondary-700));
+    border: none;
+    box-shadow: 0 3px 6px rgba(100, 116, 139, 0.2);
+}
+
+.btn-info {
+    background: linear-gradient(135deg, var(--brm-info), var(--brm-info-700));
+    border: none;
+    box-shadow: 0 3px 6px rgba(14, 165, 233, 0.2);
+}
+
+/* Badges */
+.badge {
+    border-radius: var(--brm-radius-sm);
+    padding: 0.35em 0.65em;
+    font-weight: 600;
+}
+
+.badge.bg-primary {
+    background: linear-gradient(135deg, var(--brm-primary), var(--brm-primary-700)) !important;
+}
+
+.badge.bg-success {
+    background: linear-gradient(135deg, var(--brm-success), var(--brm-success-700)) !important;
+}
+
+.badge.bg-warning {
+    background: linear-gradient(135deg, var(--brm-warning), var(--brm-warning-700)) !important;
+}
+
+.badge.bg-danger {
+    background: linear-gradient(135deg, var(--brm-danger), var(--brm-danger-700)) !important;
+}
+
+/* Alerts */
+.alert {
+    border-radius: var(--brm-radius);
+    border: 1px solid var(--brm-border);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+}
+
+.alert-primary {
+    background-color: var(--brm-primary-50);
+    border-color: rgba(37, 99, 235, 0.2);
+    color: var(--brm-primary-700);
+}
+
+.alert-success {
+    background-color: var(--brm-success-50);
+    border-color: rgba(22, 163, 74, 0.2);
+    color: var(--brm-success-700);
+}
+
+.alert-warning {
+    background-color: var(--brm-warning-50);
+    border-color: rgba(245, 158, 11, 0.2);
+    color: var(--brm-warning-700);
+}
+
+.alert-danger {
+    background-color: var(--brm-danger-50);
+    border-color: rgba(220, 38, 38, 0.2);
+    color: var(--brm-danger-700);
+}
+
+/* Login page */
+.brm-auth {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.brm-auth .brm-auth-card {
+    border-radius: calc(var(--brm-radius) + 2px);
+    box-shadow: var(--brm-shadow);
+}
+
+.brm-auth .brm-app-name {
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+}
+
+/* Small polish */
+code {
+    padding: 0.12rem 0.35rem;
+    border-radius: 8px;
+    background: rgba(15, 23, 42, 0.06);
+}
+
+/* Utility classes for tables */
+.table-cell-center {
+    text-align: center;
+}
+
+.table-cell-right {
+    text-align: right;
+}
+
+.table-cell-left {
+    text-align: left;
+}
+
+.table-cell-nowrap {
+    white-space: nowrap;
+}
+
+.table-cell-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 200px;
+}
+
+/* Hover effect for clickable rows */
+.table-row-clickable {
+    cursor: pointer;
+}
+
+.table-row-clickable:hover td {
+    background-color: rgba(241, 245, 249, 0.9);
+}
+
+/* Loading state for tables */
+.table-loading {
+    position: relative;
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.table-loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.table-loading::before {
+    content: 'Загрузка...';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 11;
+    color: var(--brm-muted);
+    font-weight: 500;
+}
+

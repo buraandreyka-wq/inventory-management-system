@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Мои заказ')}"></head>
+<body>
+<div th:replace="fragments/layout :: navbar"></div>
+<div th:replace="fragments/layout :: alerts"></div>
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <h2>Заказ #<span th:text="${order.id}"></span></h2>
+        <a class="btn btn-outline-secondary" th:href="@{/orders}">Назад</a>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-md-4"><b>Тип:</b> <span th:text="${order.orderType}"></span></div>
+        <div class="col-md-4"><b>Статус:</b> <span th:text="${order.status}"></span></div>
+        <div class="col-md-4"><b>Склад:</b> <span th:text="${order.warehouse.name}"></span></div>
+    </div>
+
+    <div class="row mt-2">
+        <div class="col-md-6"><b>Клиент:</b> <span th:text="${order.customerName}"></span></div>
+        <div class="col-md-6"><b>Создан:</b> <span th:text="${#temporals.format(order.createdAt, 'dd.MM.yyyy HH:mm')}"></span></div>
+    </div>
+
+    <hr class="my-4"/>
+
+    <h5>Позиции</h5>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>SKU</th>
+            <th>Название</th>
+            <th class="text-end">Кол-во</th>
+            <th class="text-end">Цена</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="it : ${items}">
+            <td th:text="${it.product.sku}"></td>
+            <td th:text="${it.product.name}"></td>
+            <td class="text-end" th:text="${it.quantity}"></td>
+            <td class="text-end" th:text="${it.price}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div th:replace="fragments/layout :: scripts"></div>
+</body>
+</html>
